@@ -6,9 +6,9 @@ enum GameMsg { gameWin, gameLose, top, scoreRank }
 
 class GameModel extends ZugModel {
 
-  Game get currentGame => currentArea as Game;
+  AcroGame get currentGame => currentArea as AcroGame;
 
-  Game getGame(data) => getOrCreateArea(data) as Game;
+  AcroGame getGame(data) => getOrCreateArea(data) as AcroGame;
 
   GameModel(super.domain, super.port, super.remoteEndpoint, super.prefs, {super.localServer,super.showServMess,super.javalinServer}) {
     showServMess = true;
@@ -42,7 +42,7 @@ class GameModel extends ZugModel {
 
   @override
   Area createArea(data) {
-    return Game(data);
+    return AcroGame(data);
   }
 
 }

@@ -5,7 +5,7 @@ import 'package:zug_utils/zug_utils.dart';
 import 'package:zugclient/zug_app.dart';
 import 'package:zugclient/zug_model.dart';
 import 'game_model.dart';
-import 'game_page.dart';
+import 'game_view.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,7 +24,7 @@ void main() {
 }
 
 class GameApp extends ZugApp {
-  GameApp(super.client, super.appName,
+  GameApp(super.model, super.appName,
       {super.key, super.logLevel = Level.INFO, super.noNav = true});
 
   @override
@@ -40,6 +40,6 @@ class GameApp extends ZugApp {
 
   @override
   Widget createMainPage(model) {
-    return GamePage(model as GameModel);
+    return GameView(model as GameModel);
   }
 }
