@@ -40,7 +40,7 @@ class AcroLobby extends LobbyPage {
   DataRow getOccupantData(UniqueName uName, Map<String,dynamic> json, {Color color = Colors.white}) { //print("json: $json , name: $uName");
     return DataRow(cells: [
       DataCell(Text(uName.name,style: TextStyle(color: color))),
-      DataCell(Text("${json["score"]}", style: TextStyle(color: color))),
+      DataCell(Text("${json[AcroField.points]}", style: TextStyle(color: color))),
     ]);
   }
 

@@ -953,7 +953,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "1a965b49da96a1c514da8c61add029f7c7fd7707"
+      resolved-ref: "5c975e6509813f2e30322faf692c9b0ecc9bbd6b"
       url: "https://github.com/JohnChernoff/zugclient"
     source: git
     version: "0.4.2"

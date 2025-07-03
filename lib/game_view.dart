@@ -9,7 +9,7 @@ import 'game_model.dart';
 
 class GameView extends StatefulWidget {
 
-  final GameModel model;
+  final AcroModel model;
   const GameView(this.model, {super.key});
 
   @override
@@ -43,7 +43,6 @@ class _MainPageState extends State<GameView> with TickerProviderStateMixin {
         ac.repeat(reverse: true); // restart with new duration
       }
     }
-    print(cg.options);
     return ColoredBox(color: Colors.cyan, child: Row(children: [
       Expanded(
         child: AcroLobby(
@@ -58,7 +57,7 @@ class _MainPageState extends State<GameView> with TickerProviderStateMixin {
           ),
         ),
       ),
-      Expanded(child: Column(children: [
+      if (cg.containsOccupant(widget.model.userName)) Expanded(child: Column(children: [
         acroContainer(null, null, Colors.cyanAccent,
             Row(children: [
               Text("${cg.phaseString()}: "),
@@ -86,7 +85,7 @@ class _MainPageState extends State<GameView> with TickerProviderStateMixin {
           textBox("Points for Victory: ${cg.options["victoryPoints"] ?? "-"}", Colors.teal),
           //textBox("Max players: ${cg.maxPlayers}", Colors.pink),
         ]),
-        Expanded(child: AcroView(widget.model)),
+        Expanded(child: AcroView(widget.model, cg)),
       ])
       ),
     ]));
