@@ -1,6 +1,7 @@
 import 'package:acro_client/acro_field.dart';
 import 'package:acro_client/game.dart';
 import 'package:flutter/material.dart';
+import 'package:zug_utils/zug_utils.dart';
 import 'game_model.dart';
 
 class AcroView extends StatefulWidget {
@@ -44,7 +45,7 @@ class _AcroViewState extends State<AcroView> {
             Expanded(
               child: Image(
                   fit: BoxFit.contain,
-                  image: AssetImage("assets/images/letters/png/bev/${acro.substring(i,i+1).toLowerCase()}.png")
+                  image: ZugUtils.getAssetImage("images/letters/png/bev/${acro.substring(i,i+1).toLowerCase()}.png")
               ),
             )
         )

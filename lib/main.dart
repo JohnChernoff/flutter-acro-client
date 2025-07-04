@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:acro_client/firebase_options.dart';
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 import 'package:zug_utils/zug_utils.dart';
@@ -9,15 +10,16 @@ import 'game_view.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  String appName = "Template ZugClient";
-  ZugUtils.getIniDefaults("temp.ini").then((defaults) {
+  String appName = "AcroCafe";
+  ZugUtils.getIniDefaults("defaults.ini").then((defaults) {
     ZugUtils.getPrefs().then((prefs) {
       String domain = defaults["domain"] ?? "localhost";
-      int port = int.parse(defaults["port"] ?? "4444");
-      String endPoint = defaults["endpoint"] ?? "ws";
+      int port = int.parse(defaults["port"] ?? "3333");
+      String endPoint = defaults["endpoint"] ?? "acrosrv";
       bool localServer = bool.parse(defaults["localServer"] ?? "true");
       log("Starting $appName Client, domain: $domain, port: $port, endpoint: $endPoint, localServer: $localServer");
-      AcroModel model = AcroModel(domain,port,endPoint,prefs,localServer : localServer,showServMess : false, javalinServer: true);
+      AcroModel model = AcroModel(domain,port,endPoint,prefs,
+          firebaseOptions: DefaultFirebaseOptions.web, localServer : localServer,showServMess : false, javalinServer: true);
       runApp(GameApp(model,appName));
     });
   });
@@ -25,7 +27,7 @@ void main() {
 
 class GameApp extends ZugApp {
   GameApp(super.model, super.appName,
-      {super.key, super.logLevel = Level.INFO, super.noNav = true});
+      {super.key, super.logLevel = Level.INFO, super.noNav = true, super.splashLandscapeImgPath = "images/splash_land.gif"});
 
   @override
   AppBar createAppBar(BuildContext context, ZugModel model,

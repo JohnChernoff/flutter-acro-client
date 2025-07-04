@@ -6,9 +6,10 @@ import 'package:zugclient/options_page.dart';
 import 'package:zugclient/zug_area.dart';
 import 'acro_field.dart';
 
+//TODO: fix backgroundImage path
 class AcroLobby extends LobbyPage {
   const AcroLobby(super.client, {
-    super.backgroundImage = const AssetImage("images/rosham_bkg.png"),
+    super.backgroundImage = const AssetImage("assets/images/rosham_bkg.png"),
     super.areaName = "Acro Area",
     super.bkgCol = Colors.black,
     super.buttonsBkgCol,
