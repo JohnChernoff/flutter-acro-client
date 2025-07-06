@@ -1,5 +1,6 @@
 import 'package:acro_client/acro_field.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:zug_utils/zug_dialogs.dart';
 import 'package:zugclient/zug_area.dart';
 import 'package:zugclient/zug_fields.dart';
 import 'package:zugclient/zug_model.dart';
@@ -18,6 +19,7 @@ class AcroModel extends ZugModel {
     modelName = "my_client";
     addFunctions({
       AcroMsg.acroConfirmed: handleAcroConfirmation,
+      ServMsg.kicked: handleKick
     });
     editOption(AudioOpt.music, true);
     checkRedirect("lichess.org");
@@ -47,6 +49,11 @@ class AcroModel extends ZugModel {
     } else if (data[fieldPhase] == AcroPhase.topicSelect.name) {
       game.newTopics(data[fieldPhaseData]);
     }
+    return true;
+  }
+
+  bool handleKick(data) {
+    ZugDialogs.popup("You've been kicked for idleness");
     return true;
   }
 
