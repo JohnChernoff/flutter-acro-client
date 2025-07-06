@@ -1,5 +1,5 @@
 enum AcroMsg {
-  newAcro, newVote, badAcro, badVote, acroConfirmed, voteConfirmed, newGame, scores, summary, nudge
+  newAcro, newVote, badAcro, badVote, newTopic, newTopics, acroConfirmed, voteConfirmed, newGame, scores, summary, nudge
 }
 
 class AcroField {
@@ -15,4 +15,6 @@ class AcroField {
   static const String acros = "acros";
   static const String acroId = "acroId";
   static const String speedy = "speedy";
+  static const String topic = "topic";
+  static const String topics = "topics";
 }

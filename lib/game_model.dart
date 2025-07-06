@@ -29,6 +29,11 @@ class AcroModel extends ZugModel {
   }
 
   @override
+  bool handleUpdateOccupants(data, {Area? area}) {
+    return super.handleUpdateOccupants(data);
+  }
+
+  @override
   bool handleNewPhase(data) {
     super.handleNewPhase(data);
     AcroGame game = getGame(data);
@@ -38,6 +43,8 @@ class AcroModel extends ZugModel {
       game.currentAcro = data[fieldPhaseData][AcroField.acro];
     } else if (data[fieldPhase] == AcroPhase.voting.name || data[fieldPhase] == AcroPhase.scoring.name) {
       game.newAcros(data[fieldPhaseData][AcroField.acros]);
+    } else if (data[fieldPhase] == AcroPhase.topicSelect.name) {
+      game.newTopics(data[fieldPhaseData]);
     }
     return true;
   }

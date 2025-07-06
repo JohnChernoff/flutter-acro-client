@@ -30,6 +30,13 @@ class AcroLobby extends LobbyPage {
   }
 
   @override
+  Widget selectedArea(BuildContext context, {Color? bkgCol, Color? txtCol, Iterable<dynamic>? occupants}) {
+    List<dynamic> players = model.currentArea.occupantMap.values.toList();
+    players.sort((a,b) => b[AcroField.points] - a[AcroField.points]);
+    return super.selectedArea(context, bkgCol: bkgCol, txtCol: txtCol, occupants: players);
+  }
+
+  @override
   List<DataColumn> getOccupantHeaders({Color color = Colors.white}) {
     return [
       DataColumn(label: Expanded(child: Text("Name",style: TextStyle(color: color)))),

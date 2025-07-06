@@ -2,12 +2,16 @@ import 'package:zugclient/zug_area.dart';
 import 'package:zugclient/zug_fields.dart';
 import 'acro_field.dart';
 
+enum AcroPhase { paused,waiting,composing,voting,scoring,topicSelect,summarizing,finished }
+
 class AcroGame extends Area {
   bool acceptedAcro = false;
   String? currentAcro;
   String? currentTopic;
   List<Acro> currentAcros = [];
+  List<String> currentTopics = [];
   int round = 0;
+  UniqueName? topicSelector;
   List<AcroPlayer> players = [];
 
   AcroGame(super.data);
@@ -39,20 +43,28 @@ class AcroGame extends Area {
     }
   }
 
+  void newTopics(dynamic data) {
+    topicSelector = UniqueName.fromData(data[fieldUser]);
+    currentTopics.clear();
+    for (dynamic t in data[AcroField.topics]) {
+      currentTopics.add(t);
+    }
+  }
+
   String phaseString() {
     if (phase == AcroPhase.composing.name) {
       return "Write your acro";
     } else if (phase == AcroPhase.voting.name) {
       return "Vote on the acros below";
+    } else if (phase == AcroPhase.topicSelect.name) {
+      return "Selecting the next topic";
     } else {
-      return "${capitalize(phase)}...";
+      return capitalize(phase);
     }
   }
 
   String capitalize(String s) => s.isNotEmpty ? s[0].toUpperCase() + s.substring(1).toLowerCase() : s;
 }
-
-enum AcroPhase { paused,waiting,composing,voting,scoring,nextRound,summarizing,finished }
 
 class AcroPlayer {
   final UniqueName name;

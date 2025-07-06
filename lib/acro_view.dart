@@ -60,16 +60,18 @@ class _AcroViewState extends State<AcroView> {
           getAcroTxtField(),
         ],
       );
-    }
-    else if (widget.game.phase == AcroPhase.voting.name) {
+    } else if (widget.game.phase == AcroPhase.voting.name) {
+      widget.game.currentAcros.sort((a,b) => a.id?.compareTo(b.id ?? '0') ?? 0);
       return DataTable(columns: getAcroVoteColumns(), rows: List.generate(widget.game.currentAcros.length, (i) =>
           getAcroVoteRow(widget.game.currentAcros.elementAt(i))));
-    }
-    else if (widget.game.phase == AcroPhase.scoring.name) {
+    } else if (widget.game.phase == AcroPhase.scoring.name) {
+      widget.game.currentAcros.sort((a,b) => a.votes.length.compareTo(b.votes.length));
       return DataTable(columns: getAcroScoreColumns(), rows: List.generate(widget.game.currentAcros.length, (i) =>
           getAcroScoreRow(widget.game.currentAcros.elementAt(i))));
-    }
-    else {
+    } else if (widget.game.phase == AcroPhase.topicSelect.name) {
+      return DataTable(columns: getTopicColumns(), rows: List.generate(widget.game.currentTopics.length, (i) =>
+          getTopicRow(widget.game.currentTopics.elementAt(i))));
+    } else {
       return Text("${widget.game.phase}...");
     }
   }
@@ -119,6 +121,12 @@ class _AcroViewState extends State<AcroView> {
     ];
   }
 
+  List<DataColumn> getTopicColumns() {
+    return [
+      DataColumn(label: Text("${widget.game.topicSelector} may select a Topic")),
+    ];
+  }
+
   DataRow getAcroVoteRow(Acro acro) {
     return DataRow(cells: [
       DataCell(Checkbox(value: acro == currentVote, onChanged: (b) {
@@ -141,6 +149,14 @@ class _AcroViewState extends State<AcroView> {
       DataCell(Text("${acro.votes.length}")),
       DataCell(Text("${acro.time}")),
       DataCell(acro.speedy ? const Icon(Icons.speed) : const Text("")),
+    ]);
+  }
+
+  DataRow getTopicRow(String topic) {
+    return DataRow(cells: [
+      DataCell(InkWell(child: Text(topic),
+        onTap: () => widget.model.areaCmd(AcroMsg.newTopic, data: {AcroField.topic : topic}),
+      ))
     ]);
   }
   
