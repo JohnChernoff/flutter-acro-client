@@ -33,6 +33,7 @@ class _AcroViewState extends State<AcroView> {
   @override
   Widget build(BuildContext context) {
     return Column(children: [
+      Text("Topic: ${widget.game.currentTopic ?? 'general'}"),
       getAcroWidget(widget.game.currentAcro ?? ""),
       getPhaseWidget()
     ]);

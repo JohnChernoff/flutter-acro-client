@@ -41,6 +41,7 @@ class AcroModel extends ZugModel {
     if (acroWriter.hasListeners) acroWriter.clear();
     if (data[fieldPhase] == AcroPhase.composing.name) {
       game.currentAcro = data[fieldPhaseData][AcroField.acro];
+      game.currentTopic = data[fieldPhaseData][AcroField.topic];
     } else if (data[fieldPhase] == AcroPhase.voting.name || data[fieldPhase] == AcroPhase.scoring.name) {
       game.newAcros(data[fieldPhaseData][AcroField.acros]);
     } else if (data[fieldPhase] == AcroPhase.topicSelect.name) {
