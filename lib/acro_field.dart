@@ -7,6 +7,7 @@ class AcroField {
   static const String vote = "vote";
   static const String votes = "votes";
   static const String player = "player";
+  static const String winner = "winner";
   static const String points = "points";
   static const String author = "author";
   static const String acroTxt = "txt";

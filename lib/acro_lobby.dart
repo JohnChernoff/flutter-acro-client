@@ -1,10 +1,13 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:zug_utils/zug_utils.dart';
 import 'package:zugclient/dialogs.dart';
 import 'package:zugclient/lobby_page.dart';
 import 'package:zugclient/options_page.dart';
 import 'package:zugclient/zug_area.dart';
 import 'acro_field.dart';
+import "package:universal_html/html.dart" as html;
 
 //TODO: fix backgroundImage path
 class AcroLobby extends LobbyPage {
@@ -62,8 +65,19 @@ class AcroLobby extends LobbyPage {
       ),
       ElevatedButton(
           style: getButtonStyle(Colors.white, Colors.greenAccent),
-          onPressed: () async => HelpDialog(model,await rootBundle.loadString('txt/help.txt'),bkgCol: Colors.greenAccent).raise(),
+          onPressed: () async => HelpDialog(model,await rootBundle.loadString('txt/help.txt'),bkgCol: Colors.cyan).raise(),
           child: Text("Help", style: getButtonTextStyle())
+      ),
+      ElevatedButton(
+          style: getButtonStyle(Colors.orange, Colors.blueAccent),
+          onPressed: ()  {
+            if (kIsWeb) {
+              html.window.open("https://discord.gg/ak6d4wagnU", 'new tab');
+            } else {
+              ZugUtils.launch("https://discord.gg/ak6d4wagnU", isNewTab: true);
+            }
+          },
+          child: Text("Discord", style: getButtonTextStyle())
       ),
       ElevatedButton(
           style: getButtonStyle(Colors.blue, Colors.greenAccent),

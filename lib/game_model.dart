@@ -19,6 +19,7 @@ class AcroModel extends ZugModel {
     modelName = "my_client";
     addFunctions({
       AcroMsg.acroConfirmed: handleAcroConfirmation,
+      AcroMsg.newGame: handleNewGame,
       ServMsg.kicked: handleKick
     });
     editOption(AudioOpt.music, true);
@@ -30,9 +31,8 @@ class AcroModel extends ZugModel {
     return true;
   }
 
-  @override
-  bool handleUpdateOccupants(data, {Area? area}) {
-    return super.handleUpdateOccupants(data);
+  bool handleNewGame(data) {
+    return handleUpdateOccupants(data);
   }
 
   @override

@@ -1,0 +1,42 @@
+Welcome to Acro Cafe!
+
+Quick Start:
+
+ 1) Select an area from the "Select Acro Area" dropdown (if you are a guest, choose a Guest Area)
+ 2) Click "Join" (from the command list above)
+ 3) Start acroing!
+
+ The rules of Acrophobia are simple - each round, a random sequence of letters is presented as an acronym for players
+ to create their own expansion of.
+
+ For instance, "TIGF", while conventionally meaning "Thank God It's Friday", could also be:
+
+    "The Internet's Getting Full"
+    "This isn't Go Fish"
+    "They invented Gatorate: Floridians"
+
+    And so forth.
+
+Quite often a round will feature a "topic" which players may try to reference in their entries.
+
+After the composition round is over, players may then vote on which entries they like best.  The winning entry
+gets a bonus (usually based on the length of the acronym) and there are also bonues for fastest entry that gains
+at least one vote and for voting for the winning entry.
+
+In most areas, the winner (or sometimes a randomly chosen player) can then choose a topic for the next round.
+
+Once a player's score equals or exceeds the points necessary for victory (depends on the area, but typically between
+20 and 30), they are declared the winner and a new game is begun.
+
+You can chat with other players in your game by typing in the "Area Message" box in the lower left of your display.
+To chat with the server as a whole, change "Area Message" to "Server Message".
+
+Acro Cafe is very new and developing rapidly.  For updates/feedback/etc., please join our discord.
+
+Cheers,
+
+- Zug
+
+
+
+

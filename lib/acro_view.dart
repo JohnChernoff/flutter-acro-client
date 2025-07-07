@@ -67,7 +67,10 @@ class _AcroViewState extends State<AcroView> {
           getAcroVoteRow(widget.game.currentAcros.elementAt(i))));
     } else if (widget.game.phase == AcroPhase.scoring.name) {
       widget.game.currentAcros.sort((a,b) => a.votes.length.compareTo(b.votes.length));
-      return DataTable(columns: getAcroScoreColumns(), rows: List.generate(widget.game.currentAcros.length, (i) =>
+      return DataTable(columns: getAcroScoreColumns(),
+          dataRowMinHeight: 48,
+          dataRowMaxHeight: 128,
+          rows: List.generate(widget.game.currentAcros.length, (i) =>
           getAcroScoreRow(widget.game.currentAcros.elementAt(i))));
     } else if (widget.game.phase == AcroPhase.topicSelect.name) {
       return DataTable(columns: getTopicColumns(), rows: List.generate(widget.game.currentTopics.length, (i) =>
@@ -150,11 +153,11 @@ class _AcroViewState extends State<AcroView> {
       DataCell(Text("${acro.votes.length}")),
       DataCell(Text("${acro.time}")),
       DataCell(acro.speedy ? const Icon(Icons.speed) : const Text("")),
-    ]);
+    ], color: ElevatedButton.styleFrom(backgroundColor: acro.winner ? Colors.greenAccent : Colors.cyan).backgroundColor);
   }
 
   DataRow getTopicRow(String topic) {
-    return DataRow(cells: [
+    return DataRow(cells: [ //onSelectChanged: (b) => print("Selected: $b"),
       DataCell(InkWell(child: Text(topic),
         onTap: () => widget.model.areaCmd(AcroMsg.newTopic, data: {AcroField.topic : topic}),
       ))

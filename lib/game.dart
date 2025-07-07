@@ -37,7 +37,8 @@ class AcroGame extends Area {
         currentAcros.add(Acro(a[AcroField.round],a[AcroField.acroTxt],a[AcroField.time],id: a[AcroField.acroId],
             authorName: UniqueName.fromData(a[AcroField.author][fieldUser]),
             voteList: votes,
-            speedy: a[AcroField.speedy]
+            speedy: a[AcroField.speedy],
+            winner: a[AcroField.winner]
         ));
       }
     }
