@@ -72,9 +72,9 @@ class AcroLobby extends LobbyPage {
           style: getButtonStyle(Colors.orange, Colors.blueAccent),
           onPressed: ()  {
             if (kIsWeb) {
-              html.window.open("https://discord.gg/ak6d4wagnU", 'new tab');
+              html.window.open("https://discord.gg/wRHGtQWYm9", 'new tab'); //TODO: add to .ini
             } else {
-              ZugUtils.launch("https://discord.gg/ak6d4wagnU", isNewTab: true);
+              ZugUtils.launch("https://discord.gg/wRHGtQWYm9", isNewTab: true);
             }
           },
           child: Text("Discord", style: getButtonTextStyle())
