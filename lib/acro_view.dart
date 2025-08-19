@@ -54,25 +54,25 @@ class _AcroViewState extends State<AcroView> {
   }
 
   Widget getPhaseWidget() {
-    if (widget.game.phase == AcroPhase.composing.name) {
+    if (widget.game.phase == AcroPhase.composing) {
       return Column(
         children: [
           const SizedBox(height: 16),
           getAcroTxtField(),
         ],
       );
-    } else if (widget.game.phase == AcroPhase.voting.name) {
+    } else if (widget.game.phase == AcroPhase.voting) {
       widget.game.currentAcros.sort((a,b) => a.id?.compareTo(b.id ?? '0') ?? 0);
       return DataTable(columns: getAcroVoteColumns(), rows: List.generate(widget.game.currentAcros.length, (i) =>
           getAcroVoteRow(widget.game.currentAcros.elementAt(i))));
-    } else if (widget.game.phase == AcroPhase.scoring.name) {
+    } else if (widget.game.phase == AcroPhase.scoring) {
       widget.game.currentAcros.sort((a,b) => a.votes.length.compareTo(b.votes.length));
       return DataTable(columns: getAcroScoreColumns(),
           dataRowMinHeight: 48,
           dataRowMaxHeight: 128,
           rows: List.generate(widget.game.currentAcros.length, (i) =>
           getAcroScoreRow(widget.game.currentAcros.elementAt(i))));
-    } else if (widget.game.phase == AcroPhase.topicSelect.name) {
+    } else if (widget.game.phase == AcroPhase.topicSelect) {
       return DataTable(columns: getTopicColumns(), rows: List.generate(widget.game.currentTopics.length, (i) =>
           getTopicRow(widget.game.currentTopics.elementAt(i))));
     } else {

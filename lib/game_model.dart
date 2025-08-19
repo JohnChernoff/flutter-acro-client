@@ -41,19 +41,21 @@ class AcroModel extends ZugModel {
     AcroGame game = getGame(data);
     game.acceptedAcro = false;
     if (acroWriter.hasListeners) acroWriter.clear();
-    if (data[fieldPhase] == AcroPhase.composing.name) {
+    if (game.phase == AcroPhase.composing) {
       game.currentAcro = data[fieldPhaseData][AcroField.acro];
       game.currentTopic = data[fieldPhaseData][AcroField.topic];
-    } else if (data[fieldPhase] == AcroPhase.voting.name || data[fieldPhase] == AcroPhase.scoring.name) {
+      game.round = data[fieldPhaseData][AcroField.round];
+    } else if (game.phase == AcroPhase.voting || game.phase == AcroPhase.scoring) {
       game.newAcros(data[fieldPhaseData][AcroField.acros]);
-    } else if (data[fieldPhase] == AcroPhase.topicSelect.name) {
+    } else if (game.phase == AcroPhase.topicSelect) {
       game.newTopics(data[fieldPhaseData]);
     }
     return true;
   }
 
   bool handleKick(data) {
-    ZugDialogs.popup("You've been kicked for idleness");
+    AcroGame game = getGame(data);
+    ZugDialogs.popup("You've been kicked out of ${game.id} for idleness");
     return true;
   }
 

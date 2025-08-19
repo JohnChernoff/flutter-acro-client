@@ -38,8 +38,8 @@ class _MainPageState extends State<GameView> with TickerProviderStateMixin {
     AcroGame cg = widget.model.currentGame;
     if (ac.duration?.inMilliseconds != cg.phaseTime) { //print("Setting duration: ${cg.phaseTime}");
       ac.reset();
-      if (cg.phaseTime != null) {
-        ac.duration = Duration(milliseconds: cg.phaseTime ?? 999999);
+      if (cg.inPhase()) {
+        ac.duration = Duration(milliseconds: cg.phaseTime);
         ac.repeat(reverse: true); // restart with new duration
       }
     }
@@ -80,7 +80,6 @@ class _MainPageState extends State<GameView> with TickerProviderStateMixin {
               ),
             ])),
         Wrap(alignment: WrapAlignment.spaceEvenly, children: [
-          //textBox("Allow Guests: ${cg.guests}", Colors.green),
           textBox("Current Round: ${cg.round}", Colors.orange),
           textBox("Points for Victory: ${cg.options["victoryPoints"] ?? "-"}", Colors.teal),
           //textBox("Max players: ${cg.maxPlayers}", Colors.pink),

@@ -2,7 +2,7 @@ import 'package:zugclient/zug_area.dart';
 import 'package:zugclient/zug_fields.dart';
 import 'acro_field.dart';
 
-enum AcroPhase { paused,waiting,composing,voting,scoring,topicSelect,summarizing,finished }
+enum AcroPhase { paused,waiting,composing,voting,scoring,topicSelect,summarizing,skipping,finished }
 
 class AcroGame extends Area {
   bool acceptedAcro = false;
@@ -53,18 +53,21 @@ class AcroGame extends Area {
   }
 
   String phaseString() {
-    if (phase == AcroPhase.composing.name) {
+    if (phase == AcroPhase.composing) {
       return "Write your acro";
-    } else if (phase == AcroPhase.voting.name) {
+    } else if (phase == AcroPhase.voting) {
       return "Vote on the acros below";
-    } else if (phase == AcroPhase.topicSelect.name) {
+    } else if (phase == AcroPhase.topicSelect) {
       return "Selecting the next topic";
     } else {
-      return capitalize(phase);
+      return capitalize(phase.name);
     }
   }
 
   String capitalize(String s) => s.isNotEmpty ? s[0].toUpperCase() + s.substring(1).toLowerCase() : s;
+
+  @override
+  List<Enum> getPhases() => AcroPhase.values;
 }
 
 class AcroPlayer {
