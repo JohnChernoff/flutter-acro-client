@@ -1,9 +1,3 @@
-# zugclient_template
-
-Template Project for the ZugClient library
-
-## Getting Started
-
-This project is a starting point for a ZugClient application.  Whee.
+A Flutter client for https://github.com/JohnChernoff/java-acro-serv
 
 
