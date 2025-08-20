@@ -40,7 +40,7 @@ class AcroModel extends ZugModel {
     super.handleNewPhase(data);
     AcroGame game = getGame(data);
     game.acceptedAcro = false;
-    if (acroWriter.hasListeners) acroWriter.clear();
+    if (acroWriter.hasListeners && game == currentGame) acroWriter.clear();
     if (game.phase == AcroPhase.composing) {
       game.currentAcro = data[fieldPhaseData][AcroField.acro];
       game.currentTopic = data[fieldPhaseData][AcroField.topic];
