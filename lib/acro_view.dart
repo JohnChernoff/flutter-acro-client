@@ -54,30 +54,110 @@ class _AcroViewState extends State<AcroView> {
   }
 
   Widget getPhaseWidget() {
-    if (widget.game.phase == AcroPhase.composing) {
-      return Column(
-        children: [
-          const SizedBox(height: 16),
-          getAcroTxtField(),
-        ],
-      );
-    } else if (widget.game.phase == AcroPhase.voting) {
-      widget.game.currentAcros.sort((a,b) => a.id?.compareTo(b.id ?? '0') ?? 0);
-      return DataTable(columns: getAcroVoteColumns(), rows: List.generate(widget.game.currentAcros.length, (i) =>
-          getAcroVoteRow(widget.game.currentAcros.elementAt(i))));
-    } else if (widget.game.phase == AcroPhase.scoring) {
-      widget.game.currentAcros.sort((a,b) => a.votes.length.compareTo(b.votes.length));
-      return DataTable(columns: getAcroScoreColumns(),
-          dataRowMinHeight: 48,
-          dataRowMaxHeight: 128,
-          rows: List.generate(widget.game.currentAcros.length, (i) =>
-          getAcroScoreRow(widget.game.currentAcros.elementAt(i))));
-    } else if (widget.game.phase == AcroPhase.topicSelect) {
-      return DataTable(columns: getTopicColumns(), rows: List.generate(widget.game.currentTopics.length, (i) =>
-          getTopicRow(widget.game.currentTopics.elementAt(i))));
+    if (widget.game.phase is AcroPhase) {
+      return switch (widget.game.phase as AcroPhase) {
+        AcroPhase.composing => getCompView(),
+        AcroPhase.voting => getVoteView(),
+        AcroPhase.scoring => getScoreView(),
+        AcroPhase.topicSelect => getTopicSelectView(),
+        AcroPhase.paused => defView(),
+        AcroPhase.waiting => defView(),
+        AcroPhase.summarizing => defView(),
+        AcroPhase.skipping => defView(),
+        AcroPhase.finished => defView(),
+      };
     } else {
-      return Text("${widget.game.phase}...");
+      return defView();
     }
+  }
+
+  Widget defView() {
+    return Text("${widget.game.phase}...");
+  }
+
+  Widget getCompView() {
+    return Column(
+      children: [
+        const SizedBox(height: 16),
+        getAcroTxtField(),
+      ],
+    );
+  }
+
+  Widget getTopicSelectView() {
+    return DataTable(
+        columns: getTopicColumns(),
+        rows: List.generate(widget.game.currentTopics.length, (i) =>
+        getTopicRow(widget.game.currentTopics.elementAt(i))));
+  }
+
+  Widget getVoteView() {
+    widget.game.currentAcros.sort((a,b) => a.id?.compareTo(b.id ?? '0') ?? 0);
+    return ListView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: widget.game.currentAcros.length,
+      itemBuilder: (context, index) {
+        return Card(
+          margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+          child: ListTile(
+              title: Text(
+                widget.game.currentAcros[index].txt,
+                style: const TextStyle(fontSize: 16),
+              ),
+              trailing: getAcroVoteBox(widget.game.currentAcros.elementAt(index))
+          ),
+        );
+      },
+    );
+  }
+
+  Checkbox getAcroVoteBox(Acro acro) {
+    return Checkbox(value: acro == currentVote, onChanged: (b) {
+      if (b == true) {
+        widget.model.areaCmd(AcroMsg.newVote,data: {AcroField.vote : acro.id});
+        setState(() {
+          currentVote = acro;
+        });
+      }
+    });
+  }
+
+  Widget getScoreView() {
+    widget.game.currentAcros.sort((a,b) => a.votes.length.compareTo(b.votes.length));
+    return ListView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: widget.game.currentAcros.length,
+      itemBuilder: (context, index) {
+        final acro = widget.game.currentAcros[index];
+        return Card(
+          margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+          child: Padding(
+            padding: const EdgeInsets.all(12),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  acro.txt,
+                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                ),
+                const SizedBox(height: 8),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('Author: ${acro.authorName}'),
+                    Text('Votes: ${acro.votes.length}'),
+                    Text('Time: ${acro.time}'),
+                    acro.speedy ? const Icon(Icons.speed) : const SizedBox.shrink()
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 
   TextField getAcroTxtField() {
@@ -107,53 +187,10 @@ class _AcroViewState extends State<AcroView> {
     );
   }
 
-  List<DataColumn> getAcroVoteColumns() {
-    return [
-      const DataColumn(label: Icon(Icons.where_to_vote)),
-      const DataColumn(label: Text("Num")),
-      const DataColumn(label: Text("Acro"))
-    ];
-  }
-
-  List<DataColumn> getAcroScoreColumns() {
-    return [
-      const DataColumn(label: Text("Author")),
-      const DataColumn(label: Text("Acro")),
-      const DataColumn(label: Text("Votes")),
-      const DataColumn(label: Text("Time")),
-      const DataColumn(label: Text("Speed")),
-    ];
-  }
-
   List<DataColumn> getTopicColumns() {
     return [
       DataColumn(label: Text("${widget.game.topicSelector} may select a Topic")),
     ];
-  }
-
-  DataRow getAcroVoteRow(Acro acro) {
-    return DataRow(cells: [
-      DataCell(Checkbox(value: acro == currentVote, onChanged: (b) {
-        if (b == true) {
-          widget.model.areaCmd(AcroMsg.newVote,data: {AcroField.vote : acro.id});
-          setState(() {
-            currentVote = acro;
-          });
-        }
-      })),
-      DataCell(Text(acro.id ?? "?")),
-      DataCell(Text(acro.txt))
-    ]);
-  }
-
-  DataRow getAcroScoreRow(Acro acro) {
-    return DataRow(cells: [
-      DataCell(Text(acro.authorName?.name ?? "?")),
-      DataCell(Text(acro.txt)),
-      DataCell(Text("${acro.votes.length}")),
-      DataCell(Text("${acro.time}")),
-      DataCell(acro.speedy ? const Icon(Icons.speed) : const Text("")),
-    ], color: ElevatedButton.styleFrom(backgroundColor: acro.winner ? Colors.greenAccent : Colors.cyan).backgroundColor);
   }
 
   DataRow getTopicRow(String topic) {
